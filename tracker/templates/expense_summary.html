@@ -1,0 +1,113 @@
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Summary</title>
+</head>
+<body>
+    <h1>Expense Summary - {{ time_period }}</h1>
+    
+    <form method="get" action="{% url 'expense_summary' %}">
+        <label for="time_period">Select Time Period:</label>
+        <select name="time_period" id="time_period">
+            <option value="monthly" {% if time_period == 'monthly' %}selected{% endif %}>Monthly</option>
+            <option value="yearly" {% if time_period == 'yearly' %}selected{% endif %}>Yearly</option>
+        </select>
+
+        {% if time_period == 'monthly' %}
+            <label for="selected_month">Select Month:</label>
+            <select name="selected_month" id="selected_month">
+                {% for month_num, month_name in month_options %}
+                    <option value="{{ month_num }}" {% if selected_month == month_num %}selected{% endif %}>{{ month_name }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+        
+        {% if time_period == 'yearly' %}
+            <label for="selected_year">Select Year:</label>
+            <select name="selected_year" id="selected_year">
+                {% for month_num, month_name in month_options %}
+                    <option value="{{ month_num }}" {% if selected_month == month_num %}selected{% endif %}>{{ month_name }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+
+        <button type="submit">Show</button>
+    </form>
+
+    <ul>
+        {% for category, amount in summary.items %}
+            <li>{{ category }} - {{ amount }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'expenses' %}">Go back to Expenses</a>
+</body>
+</html>
+-->
+
+<!-- expense_summary.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Summary</title>
+</head>
+<body>
+    <h1>Expense Summary - {{ time_period }}</h1>
+    
+    <form id="expense-form" method="get" action="{% url 'expense_summary' %}">
+        <label for="time_period">Select Time Period:</label>
+        <select name="time_period" id="time_period">
+            <option value="monthly" {% if time_period == 'monthly' %}selected{% endif %}>Monthly</option>
+            <option value="yearly" {% if time_period == 'yearly' %}selected{% endif %}>Yearly</option>
+        </select>
+
+        <label for="selected_month">Select Month:</label>
+        <select name="selected_month" id="selected_month">
+            {% for month_num, month_name in month_options %}
+                <option value="{{ month_num }}" {% if selected_month == month_num %}selected{% endif %}>{{ month_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="selected_year">Select Year:</label>
+        <select name="selected_year" id="selected_year">
+            {% for year in year_options %}
+                <option value="{{ year }}" {% if selected_year == year %}selected{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Show</button>
+    </form>
+
+    <ul>
+        {% for category, amount in summary.items %}
+            <li>{{ category }} - {{ amount }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'expenses' %}">Go back to Expenses</a>
+
+    <script>
+        // Function to toggle visibility of the second dropdown based on the selected value of the first dropdown
+        document.getElementById('time_period').addEventListener('change', function() {
+            var selectedTimePeriod = this.value;
+            var monthDropdown = document.getElementById('selected_month');
+            var yearDropdown = document.getElementById('selected_year');
+
+            // Hide or show the second dropdown based on the selected time period
+            if (selectedTimePeriod === 'monthly') {
+                monthDropdown.style.display = 'block';
+                yearDropdown.style.display = 'none';
+            } else if (selectedTimePeriod === 'yearly') {
+                monthDropdown.style.display = 'none';
+                yearDropdown.style.display = 'block';
+            } else {
+                monthDropdown.style.display = 'none';
+                yearDropdown.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

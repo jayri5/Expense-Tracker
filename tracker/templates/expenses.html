@@ -1,0 +1,29 @@
+<!-- expenses.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expenses</title>
+</head>
+<body>
+    <h1>Expenses</h1>
+    <ul>
+        {% for expense in expenses %}
+            <li>{{ expense.amount }} - {{ expense.category }} - {{ expense.description }} - {{ expense.date }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'submit_expense' %}">Submit Expense</a>
+    <a href="{% url 'expense_summary' %}">Expense Summary</a>
+    <a href="{% url 'create_category' %}">Create Category</a>
+    
+    <!-- your_template.html -->
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+</body>
+</html>
